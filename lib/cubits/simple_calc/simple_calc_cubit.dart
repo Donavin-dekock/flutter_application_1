@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 part 'simple_calc_state.dart';
 
@@ -15,6 +17,16 @@ class SimpleCalcCubit extends Cubit<SimpleCalcState> {
     Map<String, num> breakdown = {};
 
     // TODO - Calculate your breakdown here, put the results in a map, with the validDenominations as the key, and the result as the value
+
+    if (totalChange <= -1) {
+      print("Cost exceeds funds.");
+    } else {
+      validDenominations.forEach((i) {
+        var result = (totalChange / i).floor();
+        totalChange = totalChange % i;
+        breakdown['${[i]}'] = result;
+      });
+    }
 
     emit(SimpleCalcCalculated(breakdown, totalChange));
   }
