@@ -24,9 +24,11 @@ class SimpleCalcCubit extends Cubit<SimpleCalcState> {
       validDenominations.forEach((i) {
         var result = (totalChange / i).floor();
         totalChange = totalChange % i;
-        breakdown['${[i]}'] = result;
+        breakdown['${i}'] = result;
+        breakdown.removeWhere((key, value) => value == 0);
       });
     }
+    totalChange = tender - cost;
 
     emit(SimpleCalcCalculated(breakdown, totalChange));
   }
